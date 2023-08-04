@@ -9,16 +9,20 @@
 // x, y, z が記述されてる列番号を引数にする
 int main(int argc, char *argv[]){
 	// settings
-	int xl = 1; // Input fileの何列目が x か
-	int yl = 2;
-	int zl = 3;
+	int xl = 0; // Input fileの何列目が x か
+	int yl = 1;
+	int zl = 2;
 	float dx = 0.1; // 同じxとして扱う範囲
 	float dy = 0.1;
 
-	//int xl = atoi(argv[1]);
-	//int yl = atoi(argv[2]);
-	//int zl = atoi(argv[3]);
+	//printf("%d\n",argc);
+	if(argc==4){
+	xl = atoi(argv[1]) -1; // 引数入力は1始まりで指定して、
+	yl = atoi(argv[2]) -1; // ここで0始まりに変換する
+	zl = atoi(argv[3]) -1;
 	//printf("Using Row for x y z : %d %d %d\n", xl, yl, zl);
+	}
+
 
 	char line[MAX_CNUM];
 	float val[MAX_RNUM];
