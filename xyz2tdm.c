@@ -3,16 +3,16 @@
 #include <math.h>
 //#include<errno.h>
 
-#define MAX_RNUM 10   // 1$B9T$"$?$j$N:GBgNs?t(B
-#define MAX_CNUM 1000 // 1$B9T$"$?$j$N:GBgJ8;z?t(B
+#define MAX_RNUM 10   // 1行あたりの最大列数
+#define MAX_CNUM 1000 // 1行あたりの最大文字数
 
-// x, y, z $B$,5-=R$5$l$F$kNsHV9f$r0z?t$K$9$k(B
+// x, y, z が記述されてる列番号を引数にする
 int main(int argc, char *argv[]){
 	// settings
-	int xl = 1; // Input file$B$N2?NsL\$,(B x $B$+(B
+	int xl = 1; // Input fileの何列目が x か
 	int yl = 2;
 	int zl = 3;
-	float dx = 0.1; // $BF1$8(Bx$B$H$7$F07$&HO0O(B
+	float dx = 0.1; // 同じxとして扱う範囲
 	float dy = 0.1;
 
 	//int xl = atoi(argv[1]);
@@ -24,17 +24,17 @@ int main(int argc, char *argv[]){
 	float val[MAX_RNUM];
 	float x, y, z;
 
-	float qx[1000]; // $BNL;R2=$5$l$?(Bx
+	float qx[1000]; // 量子化されたx
 	float qy[1000];
 	float qz[1000][1000];
 
 	//float x[1000], y[1000];
-	int xnum = 0; // $B;HMQ:Q$_(B x idx $B?t(B
+	int xnum = 0; // 使用済み x idx 数
 	int ynum = 0;
 
 	int xid, yid;
 
-	short sortx[100], sorty[100]; // qx, qy$B$r>.$5$$=g$KJB$Y$?;~$K(Bn$BHVL\$N(Bid 
+	short sortx[100], sorty[100]; // qx, qyを小さい順に並べた時にn番目のid 
 
 	while(fgets(line, 1000, stdin)!= NULL){
 
@@ -50,20 +50,20 @@ int main(int argc, char *argv[]){
 		for(i=0;i<MAX_RNUM;i++){
 			inis = s;
 			//sscanf(line +i, "%f\n",&val[i]);
-			val[i] = strtof(s,&s); // $B@5>o$KFI$_<h$l$?$i(B
-											// $BFI$_9~$s$@0LCV$^$G%]%$%s%?$,0\F0$5$l$F$k$O$:!#(B
+			val[i] = strtof(s,&s); // 正常に読み取れたら
+											// 読み込んだ位置までポインタが移動されてるはず。
 			//printf("%f %d\n", val[i], s-inis);
-			if(s-inis <= 0) break; // $BFI$_<h$j$K<:GT$7$?$i%]%$%s%?0\F0$,$*$3$i$J$$(B
+			if(s-inis <= 0) break; // 読み取りに失敗したらポインタ移動がおこらない
 			//line ++; 
 			
 		}
-		if (i <3) continue; // $BFI$_9~$s$@Ns?t$,(B1$B0J2<$J$iFI$_Ht$P$9(B
+		if (i <3) continue; // 読み込んだ列数が1以下なら読み飛ばす
 		x = val[xl];
 		y = val[yl];
 		z = val[zl];
 		
 		//if(num < 3) continue; 
-		// sscanf$B$NJV$jCM$OBeF~$5$l$??tCM$N8D?t$K$J$k!#(B($B<:GT$7$?>l9g$O(B3$B0J30$K$J$k(B)
+		// sscanfの返り値は代入された数値の個数になる。(失敗した場合は3以外になる)
 		
 		
 		for(i=0;i<xnum+1;i++){
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]){
 			}
 		}
 
-		if(0){ // $BESCf7P2a$rI=<($7$?$1$l$P(B1
+		if(0){ // 途中経過を表示したければ1
 			printf("%f %f %f x,yid: %d %d\n", x, y, z, xid,yid );	
 		}	
 		qz[xid][yid]=z;
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]){
 	}
 
 
-	// $B:G=*=PNO(B
+	// 最終出力
 
 	printf("READ MESH\n");
 	printf("FOR       X= ");
