@@ -3,14 +3,14 @@
 #include <math.h>
 //#include<errno.h>
 
-#define MAX_RNUM 10   // 1行あたりの最大列数
-#define MAX_CNUM 1000 // 1行あたりの最大文字数
+#define MAX_RNUM 10   // Input file 1行あたりの最大列数
+#define MAX_CNUM 1000 // Input file 1行あたりの最大文字数
 
 // x, y, z が記述されてる列番号を引数にする
 int main(int argc, char *argv[]){
 	// settings
 	int xl = 0; // Input fileの何列目が x か
-	int yl = 1;
+	int yl = 1; // コマンドライン引数がない場合にこの値を使う
 	int zl = 2;
 	float dx = 0.1; // 同じxとして扱う範囲
 	float dy = 0.1;
